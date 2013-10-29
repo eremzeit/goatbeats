@@ -1,0 +1,22 @@
+PATH
+  remote: .
+  specs:
+    ruby-processing (2.1.1)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    color (1.4.2)
+    colormath (0.1.2)
+    minitest (5.0.8)
+    rake (10.1.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  color
+  colormath
+  minitest
+  rake
+  ruby-processing!

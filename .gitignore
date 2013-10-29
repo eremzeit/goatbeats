@@ -1,0 +1,14 @@
+syntax: glob
+.DS_Store
+*.sw*
+*.*~
+*.pdf
+*.gem
+*.tgz
+*.jar
+*.zip
+/library
+/lib
+*.jpeg
+*.jpg
+
