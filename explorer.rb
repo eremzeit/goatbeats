@@ -52,7 +52,7 @@ class Explorer
   end
 
   def next_distance
-    @next_distance.next
+    d = @next_distance.next
   end
 
   def next_dir
@@ -123,16 +123,11 @@ class Explorer
   end
 
   def incr_pos(dx, dy)
-    dx += sign(dx) * @excitement
-    dy += sign(dy) * @excitement
+    dx += dx * (100 + @excitement) / 100.0
+    dy += dy * (100 + @excitement) / 100.0
 
     if @chaos.abs >= rand(550)
-      if rand(2) == 0
-        dx += 3 * @chaos * sign(dx)
-      else
-        dy += 3 * @chaos * sign(dy)
-      end
-
+      next_distance
       @tick -= 500
     end
 
@@ -162,12 +157,19 @@ class Explorer
 
     c = @start_color
     @dc.strokeWeight(5)
-    @dc.stroke(c.red, c.green, c.blue, current_alpha / 20)
+    sc = shadow_color
+    @dc.stroke(sc.red, sc.green, sc.blue, current_alpha / 20)
     @dc.line(x1, y1, x2, y2)
 
     @dc.strokeWeight(1)
     @dc.stroke(c.red, c.green, c.blue, current_alpha * 9.0 / 10.0)
     @dc.line(x1, y1, x2, y2)
+  end
+
+  def shadow_color
+    c = @start_color
+   Color::RGB.new((c.red + 255.0) / 2.0, (c.green + 255.0) / 2.0, (c.blue + 255.0) / 2.0)
+
   end
 
   def current_alpha

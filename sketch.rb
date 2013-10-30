@@ -36,7 +36,10 @@ class My_Sketch < Processing::App
       @explorers.each do |e|
         e.excitement = @excitement
         e.chaos = @chaos
-        e.next_step
+
+        (0..5).each do
+          e.next_step
+        end
       end
 
       @frame += 1
