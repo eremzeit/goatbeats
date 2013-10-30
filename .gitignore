@@ -7,7 +7,10 @@ syntax: glob
 *.tgz
 *.jar
 *.zip
-./library
+/library
+/lib
+/samples
+/captures
 *.jpeg
 *.jpg
 

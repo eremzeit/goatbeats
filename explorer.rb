@@ -1,5 +1,5 @@
 class Explorer
-  attr_accessor :excitement, :chaos
+  attr_accessor :excitement, :chaos, :tick
   attr_accessor :x, :y
 
   def self.add(explorer)
@@ -24,19 +24,17 @@ class Explorer
     @start_color = options[:start_color]
     @background_color = options[:background_color]
 
-    @lifetime = 500
+    @lifetime = 1000
     @max_height = options[:height]
     @max_width = options[:width]
 
-    @dc = options[:drawing_context]
+    #@dc = options[:drawing_context]
+    @dc = options[:sketch]
 
-    @excitement = 0
+    @excitement = 5
     @chaos = 0
 
     init_sequence
-
-    @dc.stroke(100)
-    @dc.color(100)
 
     @visited << [@x, @y]
   end
@@ -46,6 +44,9 @@ class Explorer
   end
 
   def init_sequence
+    #@next_dir_change  = [1, 1, 5, 4, 1, 2, 5, 5].shuffle.cycle
+    #@next_distance = [2, 2, 1, 3, 1, 3, 2, 1, 5, 5, 10, 10, 20].shuffle.cycle
+
     @next_dir_change  = [1, 1, 5, 4, 1, 2].shuffle.cycle
     @next_distance = [2, 2, 1, 3, 1, 3, 2, 1, 10, 10, 20].shuffle.cycle
   end
@@ -125,21 +126,23 @@ class Explorer
     dx += sign(dx) * @excitement
     dy += sign(dy) * @excitement
 
-    if rand(50) + @chaos > 45
-      dx += rand(1 + @chaos) - @chaos
-      dy += rand(1 + @chaos) - @chaos
+    if @chaos.abs >= rand(550)
+      if rand(2) == 0
+        dx += 3 * @chaos * sign(dx)
+      else
+        dy += 3 * @chaos * sign(dy)
+      end
+
+      @tick -= 500
     end
+
+
 
     @x = ((@x + dx + @max_width) % @max_width).round
     @y = ((@y + dy + @max_height) % @max_height).round
   end
 
   def draw_skip(x1, y1, x2, y2)
-    x1 = scale(x1)
-    y1 = scale(y1)
-    x2 = scale(x2)
-    y2 = scale(y2)
-
     draw_line(x1, y1, x2, y2)
   end
 
@@ -157,10 +160,20 @@ class Explorer
     x2 = scale(x2)
     y2 = scale(y2)
 
-    @dc.strokeWeight(1)
-
-    @dc.stroke(255)
+    c = @start_color
+    @dc.strokeWeight(5)
+    @dc.stroke(c.red, c.green, c.blue, current_alpha / 20)
     @dc.line(x1, y1, x2, y2)
+
+    @dc.strokeWeight(1)
+    @dc.stroke(c.red, c.green, c.blue, current_alpha * 9.0 / 10.0)
+    @dc.line(x1, y1, x2, y2)
+  end
+
+  def current_alpha
+    tick = [@tick, 1].max
+    pct = 1 - tick.to_f / @lifetime.to_f
+    255 * pct
   end
 
   def scale(i)
