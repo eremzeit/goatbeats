@@ -16,7 +16,7 @@ class My_Sketch < Processing::App
     frameRate(40)
 
     @excitement = 0
-    @chaos = 1
+    @chaos = 98
 
     @explorers = (0...1).map do
       e = Explorer.new(
@@ -25,6 +25,7 @@ class My_Sketch < Processing::App
         :scale => scale,
         #:start_color => Color::RGB.new(0x6f, 0x91, 0xd1),
         :start_color => Color::RGB.new(0x20, 0xfe, 0xd7),
+        :background_color => @bg,
         :sketch => self
       )
       e
@@ -63,6 +64,10 @@ class My_Sketch < Processing::App
     elsif event.keyChar == 108 # 'l'
       @chaos += 5
       puts "chaos = #{@chaos}"
+    elsif event.keyChar == 114 # 'r'
+      puts 'Reset'
+      @chaos = 0
+      @excitement = 0
     elsif event.keyChar == 113 # 'q'
       exit
     elsif event.keyChar == 100 # 'd'

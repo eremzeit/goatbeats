@@ -157,9 +157,14 @@ class Explorer
     y2 = scale(y2)
 
     c = @start_color
-    @dc.strokeWeight(5)
+    @dc.strokeWeight(10)
     sc = shadow_color
-    @dc.stroke(sc.red, sc.green, sc.blue, current_alpha / 20)
+    @dc.stroke(sc.red, sc.green, sc.blue, current_alpha / 10)
+    @dc.line(x1, y1, x2, y2)
+
+    @dc.strokeWeight(3)
+    sc = shadow_color
+    @dc.stroke(sc.red, sc.green, sc.blue, current_alpha * 3 / 2.0)
     @dc.line(x1, y1, x2, y2)
 
     @dc.strokeWeight(1)
@@ -169,9 +174,9 @@ class Explorer
 
   def shadow_color
     c = @start_color
-   Color::RGB.new(0,0,0)
-   #Color::RGB.new((c.red + 255.0) / 2.0, (c.green + 255.0) / 2.0, (c.blue + 255.0) / 2.0)
-
+    #Color::RGB.new(0,0,0)
+    #Color::RGB.new((c.red + 255.0) / 2.0, (c.green + 255.0) / 2.0, (c.blue + 255.0) / 2.0)
+    @background_color
   end
 
   def current_alpha
