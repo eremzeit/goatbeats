@@ -31,7 +31,7 @@ class Explorer
     #@dc = options[:drawing_context]
     @dc = options[:sketch]
 
-    @excitement = 5
+    @excitement = 0
     @chaos = 0
 
     init_sequence
@@ -73,6 +73,7 @@ class Explorer
 
   def nudge
     @nudge = true
+    @tick -= 200
   end
 
   def next_step
@@ -126,7 +127,7 @@ class Explorer
     dx += dx * (100 + @excitement) / 100.0
     dy += dy * (100 + @excitement) / 100.0
 
-    if @chaos.abs >= rand(550)
+    if @chaos.abs > rand(1000)
       next_distance
       @tick -= 500
     end
@@ -168,14 +169,16 @@ class Explorer
 
   def shadow_color
     c = @start_color
-   Color::RGB.new((c.red + 255.0) / 2.0, (c.green + 255.0) / 2.0, (c.blue + 255.0) / 2.0)
+   Color::RGB.new(0,0,0)
+   #Color::RGB.new((c.red + 255.0) / 2.0, (c.green + 255.0) / 2.0, (c.blue + 255.0) / 2.0)
 
   end
 
   def current_alpha
     tick = [@tick, 1].max
-    pct = 1 - tick.to_f / @lifetime.to_f
-    255 * pct
+    life_pct = 1 - tick.to_f / @lifetime.to_f
+    chaos_pct = [((100 - @chaos) / 100.0), 1].min
+    255 * life_pct * chaos_pct
   end
 
   def scale(i)

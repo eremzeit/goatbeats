@@ -16,7 +16,7 @@ class My_Sketch < Processing::App
     frameRate(40)
 
     @excitement = 0
-    @chaos = 0
+    @chaos = 1
 
     @explorers = (0...1).map do
       e = Explorer.new(
@@ -49,15 +49,20 @@ class My_Sketch < Processing::App
 
   def keyPressed(event)
     if event.keyChar == 99 # 'c'
+      puts 'Capture'
       save("captures/line-#{@frame}.png");
     elsif event.keyChar == 106 # 'j'
       @excitement += 2
+      puts "excitement = #{@excitement}"
     elsif event.keyChar == 107 # 'k'
       @excitement -= 2
+      puts "excitement = #{@excitement}"
     elsif event.keyChar == 104 # 'h'
       @chaos -= 5
+      puts "chaos = #{@chaos}"
     elsif event.keyChar == 108 # 'l'
       @chaos += 5
+      puts "chaos = #{@chaos}"
     elsif event.keyChar == 113 # 'q'
       exit
     elsif event.keyChar == 100 # 'd'
